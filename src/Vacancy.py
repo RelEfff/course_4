@@ -6,7 +6,7 @@ class Vacancy:
         self.description = description
 
     def __str__(self):
-        return f"{self.name} {self.url} {self.salary} {self.description}"
+        return f"{self.name}\n {self.url}\n {self.salary}\n {self.description}\n---------------------------------------------------------------------"
     @classmethod
     def vacancies_list(cls, vacancies_list):
         vacan_list = []
@@ -14,42 +14,42 @@ class Vacancy:
             vac_name = i["name"]
             vac_url = i["url"]
             vac_salary = i["salary"]
-            vac_description = i["snippet"]["requirement"]
-            vacancy_obj = cls(vac_name, vac_url, vac_salary, vac_description)
+            vac_description = cls.check_data_str(i["snippet"]["requirement"])
+            vacancy_obj = cls(vac_name, vac_url, vac_salary, vac_description) # Vacancy == cls
             vacan_list.append(vacancy_obj)
         return vacan_list
 
     def __lt__(self, other):
         if type(other) == int:
-            return self.salary < other
+            return self.salary["from"] < other
         else:
-            return self.salary < other.salary
+            return self.salary["from"] < other.salary["from"]
 
     def __le__(self, other):
         if type(other) == int:
-            return self.salary <= other
+            return self.salary["from"] <= other
         else:
-            return self.salary <= other.salary
+            return self.salary["from"] <= other.salary["from"]
     def __eq__(self, other):
         if type(other) == int:
-            return self.salary == other
+            return self.salary["from"] == other
         else:
-            return self.salary == other.salary
+            return self.salary["from"] == other.salary["from"]
     def __ne__(self, other):
         if type(other) == int:
-            return self.salary != other
+            return self.salary["from"] != other
         else:
-            return self.salary != other.salary
+            return self.salary["from"] != other.salary["from"]
     def __gt__(self, other):
         if type(other) == int:
-            return self.salary > other
+            return self.salary["from"] > other
         else:
-            return self.salary > other.salary
+            return self.salary["from"] > other.salary["from"]
     def __ge__(self, other):
         if type(other) == int:
-            return self.salary >= other
+            return self.salary["from"] >= other
         else:
-            return self.salary >= other.salary
+            return self.salary["from"] >= other.salary["from"]
 
     @staticmethod
     def check_data_int(value):
@@ -61,3 +61,13 @@ class Vacancy:
         if value:
             return value
         return "Информация не была найдена"
+
+    @staticmethod
+    def filter_vacancies(vacancies_list, filter_words):
+        filter_list = []
+        for vacancy in vacancies_list:
+            for word in filter_words:
+                if word in vacancy.description:
+                    filter_list.append(vacancy)
+                    break
+        return filter_list
