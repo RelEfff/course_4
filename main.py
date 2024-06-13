@@ -25,17 +25,17 @@ def main():
     search_query = input("Введите поисковый запрос: ")
     hh_vacancies = hh_api.load_vacancies(search_query)
     vacancies_list = Vacancy.vacancies_list(hh_vacancies)
-    # top_n = int(input("Введите количество вакансий для вывода в топ N: "))
+    top_n = int(input("Введите количество вакансий для вывода по цене в топ N: "))
     filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
-    min_salary = input("Введите минимальную зарплату: ") # Пример: 100000
+    min_salary = int(input("Введите минимальную зарплату: ")) # Пример: 100000
     #
     filtered_vacancies = Vacancy.filter_vacancies(vacancies_list, filter_words)
     #
-    ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, min_salary)
+    ranged_vacancies_by_salary = Vacancy.get_vacancies_by_salary(filtered_vacancies, min_salary)
     #
-    # sorted_vacancies = sort_vacancies(ranged_vacancies)
-    # top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
-    print_vacancies(filtered_vacancies)
+    sorted_vacancies = Vacancy.sort_vacancies(ranged_vacancies_by_salary)
+    top_vacancies = Vacancy.get_top_vacancies(sorted_vacancies, top_n)
+    print_vacancies(top_vacancies)
 
 
 if __name__ == "__main__":
