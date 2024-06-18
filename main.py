@@ -1,25 +1,13 @@
-from src.Vacancy import Vacancy
+import os.path
+
+from src.vacancy import Vacancy
 from src.hh import HH
+from src.json_worker import JsonWorker
 from src.utils import print_vacancies
 
+BASE_DIR = os.path.dirname(__file__)
+PATH_TO_DATA_FILE = os.path.join(BASE_DIR, "data", "vacancies.json")
 
-# # Создание экземпляра класса для работы с API сайтов с вакансиями
-#
-#
-# # Получение вакансий с hh.ru в формате JSON
-# hh_vacancies = hh_api.get_vacancies("Python")
-#
-# # Преобразование набора данных из JSON в список объектов
-# vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
-#
-#
-#
-# # Сохранение информации о вакансиях в файл
-# json_saver = JSONSaver()
-# json_saver.add_vacancy(vacancy)
-# json_saver.delete_vacancy(vacancy)
-
-# Функция для взаимодействия с пользователем
 def main():
     hh_api = HH()
     search_query = input("Введите поисковый запрос: ")
@@ -36,6 +24,9 @@ def main():
     sorted_vacancies = Vacancy.sort_vacancies(ranged_vacancies_by_salary)
     top_vacancies = Vacancy.get_top_vacancies(sorted_vacancies, top_n)
     print_vacancies(top_vacancies)
+
+    json_saver = JsonWorker(PATH_TO_DATA_FILE)
+    json_saver.write_vacansies(top_vacancies)
 
 
 if __name__ == "__main__":
