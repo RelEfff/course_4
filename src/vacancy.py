@@ -1,4 +1,7 @@
 class Vacancy:
+    """
+    Класс Vacancy, для работы с вакансиями (выгруженными из того или иного места)
+    """
     def __init__(self, name, url, salary_from, salary_to, currency, description):
         self.name = name
         self.url = url
@@ -17,6 +20,9 @@ class Vacancy:
 
     @classmethod
     def vacancies_list(cls, vacancies_list):
+        """
+        Класс-метод для создания ЭК из словарей формата Response, получаемых с АПИ ХХ.ру
+        """
         vacan_list = []
         for i in vacancies_list:
             vac_name = i["name"]
@@ -72,12 +78,18 @@ class Vacancy:
 
     @staticmethod
     def check_data_int(value):
+        """
+        Валидатор для целочисленных значений
+        """
         if value:
             return value
         return 0
 
     @staticmethod
     def check_data_str(value):
+        """
+        Валидатор для стороковых значений
+        """
         if value:
             return value
         return "Информация не была найдена"

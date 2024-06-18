@@ -26,7 +26,7 @@ def main():
     print_vacancies(top_vacancies)
 
     json_saver = JsonWorker(PATH_TO_DATA_FILE)
-    json_saver.write_vacansies(top_vacancies)
+    json_saver.write_vacancies(top_vacancies)
 
 
 if __name__ == "__main__":
